@@ -14,6 +14,8 @@ let obj={
     g: Number.MAX_SAFE_INTEGER,
     h: Number.MAX_SAFE_INTEGER
 }
+var found=false;
+
 
 function getXY(ele){
     return [$(ele).data('x'), $(ele).data('y')];
@@ -22,14 +24,46 @@ function getXY(ele){
 
 function getHVal(ele,dest){
     
-
 }
 
+
+function getDirection(dir, s, e){
+    if(dir.length!=0){
+        // console.log($(dir).attr('data'), !$(dir).hasClass('block'));
+        $(dir).css("background-color", "orange");
+        if($(dir).hasClass('ender')){
+            found=true;
+            console.log("Found", dir);
+            return;
+        }
+         else if($(dir).attr('done')==0 && !$(dir).hasClass('block')){
+             let dirObj = $(dir).data('obj');
+             dirObj={
+                 ...dirObj,
+                 ele: dir,
+                 x: $(dir).data('x'),
+                 y: $(dir).data('y')
+
+             }
+             gNew = dirObj.g+1;
+             hNew = getHVal(dirObj, e);
+             fNew = gNew+hNew;
+             console.log(dirObj, fNew);
+             if(dirObj.f==Number.MAX_SAFE_INTEGER || dirObj.f>fNew){
+                 set.push({fval: fNew, s: dirObj});
+             }
+
+             $(dir).css('background-color', 'chartreuse');
+         }
+    }
+}
+
+
 function aStar(){
-    let start = $('.starter');
-    let end = $('.ender');
+    var start = $('.starter');
+    var end = $('.ender');
     
-    let s={
+    var s={
         ...$(start).data('obj'),
         x: $(start).data('x'),
         y: $(start).data('y'),
@@ -42,22 +76,14 @@ function aStar(){
     s.parent_x=s.x;
     s.parent_y=s.y;
 
-    let e={
+    var e={
         ...$(end).data('obj'),
         x: $(end).data('x'),
         y: $(end).data('y'),
         ele: end
     }
     
-    console.table([s,e]);
-    let north=$(canvas).find(`[data-x='${s.x}'][data-y='${s.y-20}']`);
-    let south=$(canvas).find(`[data-x='${s.x}'][data-y='${s.y+20}']`);
-    let west=$(canvas).find(`[data-x='${s.x-20}'][data-y='${s.y}']`);
-    let east=$(canvas).find(`[data-x='${s.x+20}'][data-y='${s.y}']`);
-    let northEast=$(canvas).find(`[data-x='${s.x+20}'][data-y='${s.y-20}']`);
-    let northWest=$(canvas).find(`[data-x='${s.x-20}'][data-y='${s.y-20}']`);
-    let southWest=$(canvas).find(`[data-x='${s.x-20}'][data-y='${s.y+20}']`);
-    let southEast=$(canvas).find(`[data-x='${s.x+20}'][data-y='${s.y+20}']`);
+    // console.table([s,e]);
     // console.log('north', north)
     // console.log('south', south)
     // console.log('east', east)
@@ -67,13 +93,65 @@ function aStar(){
     // console.log('southW', southWest)
     // console.log('southE', southEast)
 
-    set.push([0,s]);
-    let found=false;
+    set.push({fval: 0,s});
     while(set.length>0){
-        let current = set.shift();
-        let i = current[1].ele;
+        if(found){
+            console.log("Found");
+            return;
+        }
+        var {s} = set.shift();
+        console.log(s);
+        var i = s.ele;
         $(i).attr("done",1);
-        
+
+        var north=$(canvas).find(`[data-x='${s.x}'][data-y='${s.y-20}']`);
+        var south=$(canvas).find(`[data-x='${s.x}'][data-y='${s.y+20}']`);
+        var west=$(canvas).find(`[data-x='${s.x-20}'][data-y='${s.y}']`);
+        var east=$(canvas).find(`[data-x='${s.x+20}'][data-y='${s.y}']`);
+        var northEast=$(canvas).find(`[data-x='${s.x+20}'][data-y='${s.y-20}']`);
+        var northWest=$(canvas).find(`[data-x='${s.x-20}'][data-y='${s.y-20}']`);
+        var southWest=$(canvas).find(`[data-x='${s.x-20}'][data-y='${s.y+20}']`);
+        var southEast=$(canvas).find(`[data-x='${s.x+20}'][data-y='${s.y+20}']`);
+
+        var gNew, hNew, fNew;
+        // getDirection(north, s ,e);
+        getDirection(south, s, e);
+        getDirection(west, s, e);
+        // getDirection(east, s, e);
+        // getDirection(northEast, s, e);
+        // getDirection(northWest, s, e);
+        // getDirection(southEast, s, e);
+        // getDirection(southWest, s, e);
+
+
+        // if(north.length!=0){
+        //     // console.log($(north).attr('data'), !$(north).hasClass('block'));
+        //     $(north).css("background-color", "orange");
+        //     if($(north).hasClass('ender')){
+        //         found=true;
+        //         console.log("Found", north);
+        //         return;
+        //     }
+        //      else if($(north).attr('done')==0 && !$(north).hasClass('block')){
+        //          let northObj = $(north).data('obj');
+        //          northObj={
+        //              ...northObj,
+        //              ele: north,
+        //              x: $(north).data('x'),
+        //              y: $(north).data('y')
+
+        //          }
+        //          gNew = northObj.g+1;
+        //          hNew = getHVal(northObj, e);
+        //          fNew = gNew+hNew;
+        //          console.log(northObj, fNew);
+        //          if(northObj.f==Number.MAX_SAFE_INTEGER || northObj.f>fNew){
+        //              set.push({fval: fNew, s: northObj});
+        //          }
+
+        //          $(north).css('background-color', 'chartreuse');
+        //      }
+        // }
     }
 
 

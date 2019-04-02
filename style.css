@@ -1,0 +1,57 @@
+html, body{
+    box-sizing: border-box;
+}
+
+.canva{
+    width: 600px;
+    height: 600px;
+    position: absolute;
+    left: 300px;
+    top: 100px;
+    border: 1px solid black;
+}
+
+button{
+    margin: 0;
+    display: block;
+    float: left;
+    padding: 0;
+}
+
+.block{
+    background-color: black;
+}
+
+.start{
+    width: 100px;
+    height: 50px;
+    border-radius: 10%;
+    background-color: red;
+    color: white;
+    cursor: pointer;
+}
+
+.end{
+    width: 100px;
+    cursor: pointer;
+    height: 50px;
+    border-radius: 10%;
+    color: white;
+    background-color: blue;
+}
+
+.starter{
+    background-color: red;
+}
+
+.ender{
+    background-color: blue;
+}
+
+.play{
+    width: 100px;
+    height: 50px;
+    text-align: center;
+    border-radius: 10%;
+    background-color: chartreuse;
+}

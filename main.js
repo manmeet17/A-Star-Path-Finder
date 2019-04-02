@@ -116,12 +116,12 @@ function aStar(){
         var gNew, hNew, fNew;
         // getDirection(north, s ,e);
         getDirection(south, s, e);
-        getDirection(west, s, e);
+        // getDirection(west, s, e);
         // getDirection(east, s, e);
         // getDirection(northEast, s, e);
         // getDirection(northWest, s, e);
-        // getDirection(southEast, s, e);
-        // getDirection(southWest, s, e);
+        getDirection(southEast, s, e);
+        getDirection(southWest, s, e);
 
 
         // if(north.length!=0){

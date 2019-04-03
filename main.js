@@ -43,7 +43,7 @@ function tracePath(){
 }
 
 function getDirection(dir, s, e){
-    if($(dir).hasClass('block') || $(dir).hasClass('starter')) return;
+    if($(dir).hasClass('block') || $(dir).hasClass('starter') || $(dir).attr('done')==1) return;
     if(dir.length!=0){
         // console.log($(dir).attr('data'), !$(dir).hasClass('block'));
         $(dir).css("background-color", "orange");
@@ -92,8 +92,12 @@ function getDirection(dir, s, e){
     }
 }
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms))
+}
 
-function aStar(){
+
+async function aStar(){
     var start = $('.starter');
     var end = $('.ender');
     
@@ -156,6 +160,8 @@ function aStar(){
         getDirection(south, s, e);
         getDirection(west, s, e);
         getDirection(east, s, e);
+
+        await sleep(100);
         // getDirection(northEast, s, e);
         // getDirection(northWest, s, e);
         // getDirection(southEast, s, e);

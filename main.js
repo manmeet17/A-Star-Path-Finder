@@ -84,7 +84,8 @@ function getDirection(dir, s, e){
                  dirObj.h=hNew;
                  dirObj.parent_x=s.x;
                  dirObj.parent_y=s.y;
-                 $(dir).attr('data-obj', JSON.stringify(dirObj))
+                 $(dir).attr('data-obj', JSON.stringify(dirObj));
+                 $(dir).attr("done",1);
                  set.push({fval: fNew, s: dirObj});
              }
              $(dir).css('background-color', 'chartreuse');
@@ -160,12 +161,12 @@ async function aStar(){
         getDirection(south, s, e);
         getDirection(west, s, e);
         getDirection(east, s, e);
-
-        await sleep(100);
         // getDirection(northEast, s, e);
         // getDirection(northWest, s, e);
         // getDirection(southEast, s, e);
         // getDirection(southWest, s, e);
+
+        await sleep(10);
 
 
         // if(north.length!=0){

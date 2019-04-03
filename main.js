@@ -60,6 +60,7 @@ function getDirection(dir, s, e){
             // dirObj.parent_x=s.x;
             // dirObj.parent_y=s.y;
             tracePath();
+            $(dir).css('background-color', 'blue');
             return;
         }
          else{

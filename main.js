@@ -22,8 +22,12 @@ function getXY(ele){
 }
 
 
-function getHVal(ele,dest){
+function euclidenDistance(ele,dest){
     return Math.sqrt(Math.pow(ele.x-dest.x,2)-Math.pow(ele.y-dest.y,2));
+}
+
+function manhattanDistance(ele,dest){
+    return Math.abs(ele.x-dest.x)+Math.abs(ele.y-dest.y);
 }
 
 function tracePath(){
@@ -71,7 +75,7 @@ function getDirection(dir, s, e){
                  y: $(dir).data('y')
              }
              gNew = dirObj.g+1;
-             hNew = getHVal(dirObj, e);
+             hNew = manhattanDistance(dirObj, e);
              fNew = gNew+hNew;
              console.log(dirObj, fNew);
              if( $(dir).attr("done")==0 || dirObj.f>fNew){

@@ -4,3 +4,5 @@ Visualization of the A* star algorithm, the same algorithm which **Google Maps**
 [Demo](http://astar.surge.sh)
 
 ![alt text](https://github.com/manmeet17/A-Star-Path-Finder/blob/master/Screenshots/a*.png "A* Pathfinder")
+
+![alt text](https://github.com/manmeet17/A-Star-Path-Finder/blob/master/Screenshots/a*2.png "A* Pathfinder")

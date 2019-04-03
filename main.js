@@ -10,9 +10,9 @@ var set = new Array();
 let obj={
     parent_x: -1,
     parent_y: -1,
-    f: Number.MAX_SAFE_INTEGER,
-    g: Number.MAX_SAFE_INTEGER,
-    h: Number.MAX_SAFE_INTEGER
+    f: 0,
+    g: 0,
+    h: 0
 }
 var found=false;
 
@@ -23,36 +23,61 @@ function getXY(ele){
 
 
 function getHVal(ele,dest){
-    
+    return Math.sqrt(Math.pow(ele.x-dest.x,2)-Math.pow(ele.y-dest.y,2));
 }
 
+function tracePath(dir){
+    while(!$(dir).hasClass('starter')){
+        let dirObj = $(dir).data('obj');
+        console.log(dirObj);
+        $(dir).css("background-color", 'orange');
+        dir = $(canvas).find(`[data-x='${dirObj.parent_x}'][data-y='${dirObj.parent_y}']`)
+    }
+}
 
 function getDirection(dir, s, e){
+    if($(dir).hasClass('block') || $(dir).hasClass('starter')) return;
     if(dir.length!=0){
         // console.log($(dir).attr('data'), !$(dir).hasClass('block'));
         $(dir).css("background-color", "orange");
         if($(dir).hasClass('ender')){
             found=true;
             console.log("Found", dir);
+            let dirObj = $(dir).data('obj');
+             dirObj={
+                 ...dirObj,
+                 x: $(dir).data('x'),
+                 y: $(dir).data('y')
+             }
+             dirObj.parent_x=s.x;
+             dirObj.parent_y=s.y;
+             console.log("Parent--->",s, dirObj);
+             $(dir).attr('data-obj', JSON.stringify(dirObj))
+            // dirObj.parent_x=s.x;
+            // dirObj.parent_y=s.y;
+            tracePath(dir);
             return;
         }
-         else if($(dir).attr('done')==0 && !$(dir).hasClass('block')){
+         else{
              let dirObj = $(dir).data('obj');
              dirObj={
                  ...dirObj,
-                 ele: dir,
                  x: $(dir).data('x'),
                  y: $(dir).data('y')
-
              }
              gNew = dirObj.g+1;
              hNew = getHVal(dirObj, e);
              fNew = gNew+hNew;
              console.log(dirObj, fNew);
-             if(dirObj.f==Number.MAX_SAFE_INTEGER || dirObj.f>fNew){
+             if( $(dir).attr("done")==0 || dirObj.f>fNew){
+                 dirObj.f=fNew;
+                 dirObj.g=gNew;
+                 dirObj.h=hNew;
+                 dirObj.parent_x=s.x;
+                 dirObj.parent_y=s.y;
+                 $(dir).attr('data-obj', JSON.stringify(dirObj))
                  set.push({fval: fNew, s: dirObj});
              }
-
              $(dir).css('background-color', 'chartreuse');
          }
     }
@@ -67,7 +92,6 @@ function aStar(){
         ...$(start).data('obj'),
         x: $(start).data('x'),
         y: $(start).data('y'),
-        ele: start
     }
 
     s.f=0;
@@ -80,7 +104,6 @@ function aStar(){
         ...$(end).data('obj'),
         x: $(end).data('x'),
         y: $(end).data('y'),
-        ele: end
     }
     
     // console.table([s,e]);
@@ -99,9 +122,15 @@ function aStar(){
             console.log("Found");
             return;
         }
-        var {s} = set.shift();
-        console.log(s);
-        var i = s.ele;
+
+        var min = set.reduce((h, curr, currIn, set)=>{
+            return curr.fval < set[h].fval ? currIn : h;
+        },0);
+        var {fval,s}=set[min];
+        set.splice(min,1);
+        // console.log("M"min);
+        console.log("Minimum index-->",min,fval,s);
+        var i = $(canvas).find(`[data-x='${s.x}'][data-y='${s.y}']`);
         $(i).attr("done",1);
 
         var north=$(canvas).find(`[data-x='${s.x}'][data-y='${s.y-20}']`);
@@ -114,12 +143,12 @@ function aStar(){
         var southEast=$(canvas).find(`[data-x='${s.x+20}'][data-y='${s.y+20}']`);
 
         var gNew, hNew, fNew;
-        // getDirection(north, s ,e);
+        getDirection(north, s ,e);
         getDirection(south, s, e);
-        // getDirection(west, s, e);
-        // getDirection(east, s, e);
-        // getDirection(northEast, s, e);
-        // getDirection(northWest, s, e);
+        getDirection(west, s, e);
+        getDirection(east, s, e);
+        getDirection(northEast, s, e);
+        getDirection(northWest, s, e);
         getDirection(southEast, s, e);
         getDirection(southWest, s, e);
 

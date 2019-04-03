@@ -26,9 +26,12 @@ function getHVal(ele,dest){
     return Math.sqrt(Math.pow(ele.x-dest.x,2)-Math.pow(ele.y-dest.y,2));
 }
 
-function tracePath(dir){
+function tracePath(){
+    // console.log("Dest----->", $(dir).hasClass('ender'), $(dir).data('obj'));
+    let dir = $('.ender');
+    console.log(dir);
     while(!$(dir).hasClass('starter')){
-        let dirObj = $(dir).data('obj');
+        let dirObj = JSON.parse($(dir).attr('data-obj'));
         console.log(dirObj);
         $(dir).css("background-color", 'orange');
         dir = $(canvas).find(`[data-x='${dirObj.parent_x}'][data-y='${dirObj.parent_y}']`)
@@ -53,9 +56,10 @@ function getDirection(dir, s, e){
              dirObj.parent_y=s.y;
              console.log("Parent--->",s, dirObj);
              $(dir).attr('data-obj', JSON.stringify(dirObj))
+            //  console.log("Check--->",JSON.parse($('.ender').attr('data-obj')));
             // dirObj.parent_x=s.x;
             // dirObj.parent_y=s.y;
-            tracePath(dir);
+            tracePath();
             return;
         }
          else{
@@ -129,7 +133,7 @@ function aStar(){
         var {fval,s}=set[min];
         set.splice(min,1);
         // console.log("M"min);
-        console.log("Minimum index-->",min,fval,s);
+        console.log("Minimum index-->",min,fval,set.length,s);
         var i = $(canvas).find(`[data-x='${s.x}'][data-y='${s.y}']`);
         $(i).attr("done",1);
 

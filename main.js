@@ -75,7 +75,7 @@ function getDirection(dir, s, e){
                  y: $(dir).data('y')
              }
              gNew = dirObj.g+1;
-             hNew = manhattanDistance(dirObj, e);
+             hNew = euclidenDistance(dirObj, e);
              fNew = gNew+hNew;
              console.log(dirObj, fNew);
              if( $(dir).attr("done")==0 || dirObj.f>fNew){

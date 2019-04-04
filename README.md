@@ -1,5 +1,5 @@
 # A-Star-Path-Finder
-Visualization of the A* star algorithm, the same algorithm which **Google Maps** uses.
+Visualization of the A* algorithm, the same algorithm which **Google Maps** uses.
 
 [Demo](http://astar.surge.sh)
 

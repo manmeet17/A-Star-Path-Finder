@@ -23,7 +23,7 @@ function getXY(ele){
 
 
 function euclidenDistance(ele,dest){
-    return Math.sqrt(Math.pow(ele.x-dest.x,2)-Math.pow(ele.y-dest.y,2));
+    return Math.sqrt(Math.pow(ele.x-dest.x,2)+Math.pow(ele.y-dest.y,2));
 }
 
 function manhattanDistance(ele,dest){
